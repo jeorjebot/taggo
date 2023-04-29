@@ -65,7 +65,8 @@ func (r *GitRepoInfo) HasTags() (err error) {
 	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
-		err = fmt.Errorf("no tags found: you should create a tag first")
+		err = fmt.Errorf("no tags found: you should create a tag first with 'taggo init'")
+
 		return err
 	}
 	r.HasTag = true

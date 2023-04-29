@@ -1,10 +1,9 @@
 # Taggo - git tag utility
-
-![taggo gopher](https://www.jeorje.net/images/taggo.png)
 Easy peasy git tag utility for lazy people who don't want to remember git commands.
 
+![taggo gopher](https://www.jeorje.net/images/taggo.png)
 
-Taggo handle the creation of lightweight tags and push them to the remote repository.
+**Taggo** handle the creation of lightweight tags and push them to the remote repository.
 Tags are created with the format `vX.Y.Z` where `X` is the major version, `Y` is the minor version and `Z` is the patch version.
 
 Future versions will allow to add pre-release and handle annotated tags.
@@ -30,3 +29,8 @@ Future versions will allow to add pre-release and handle annotated tags.
 - `git push origin v1.0.0` ==> push tag to remote
 - `git tag --delete v1.0.0` ==> delete tag local
 - `git push --delete origin v1.0.0` ==> delete tag remote
+
+
+## Thanks
+- [autotag](https://github.com/pantheon-systems/autotag) for the inspiration
+- [gopherize.me](https://gopherize.me/) for the gopher image

@@ -178,10 +178,10 @@ func (r *GitRepoInfo) DeleteLastTagOnLocal() (err error) {
 func (r *GitRepoInfo) DeleteLastTagOnRemote() (err error) {
 	// delete tag remotely
 	// git push origin --delete <tag>
-	if r.LastTag == "v0.0.0" {
-		// tag v0.0.0 not recognized by github
-		return nil
-	}
+	// if r.LastTag == "v0.0.0" {
+	// 	// tag v0.0.0 not recognized by github
+	// 	return nil
+	// }
 	cmd := exec.Command("git", "-C", r.Path, "push", "origin", "--delete", r.LastTag)
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout

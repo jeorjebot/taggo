@@ -1,8 +1,8 @@
 # Taggo
 
-<!-- [![Go Report Card](https://goreportcard.com/badge/github.com/jeorje/taggo)](https://goreportcard.com/report/github.com/jeorje/taggo)
-[![GoDoc](https://godoc.org/github.com/jeorje/taggo?status.svg)](https://godoc.org/github.com/jeorje/taggo) -->
-![GitHub release](https://img.shields.io/github/release/jeorje/taggo.svg)
+<!-- [![Go Report Card](https://goreportcard.com/badge/github.com/jeorje/taggo)](https://goreportcard.com/report/github.com/jeorjebot/taggo)
+[![GoDoc](https://godoc.org/github.com/jeorje/taggo?status.svg)](https://godoc.org/github.com/jeorjebot/taggo) -->
+![GitHub release](https://img.shields.io/github/release/jeorjebot/taggo.svg)
 
 
 Easy peasy git tag utility for lazy people who don't want to remember git commands.
@@ -25,7 +25,7 @@ The binary will be installed in `$GOPATH/bin` or `$GOBIN` if set.
 Make sure you have `$GOPATH/bin` in your path.
 
 ### From releases
-Download the binary from the releases page.
+Download the binary for your OS from the [releases page](https://github.com/jeorjebot/taggo/releases).
 Make sure the binary is executable, then move it to your path.
 
 ```bash

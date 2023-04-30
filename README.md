@@ -1,4 +1,10 @@
-# Taggo - git tag utility
+# Taggo
+
+<!-- [![Go Report Card](https://goreportcard.com/badge/github.com/jeorje/taggo)](https://goreportcard.com/report/github.com/jeorje/taggo)
+[![GoDoc](https://godoc.org/github.com/jeorje/taggo?status.svg)](https://godoc.org/github.com/jeorje/taggo) -->
+![GitHub release](https://img.shields.io/github/release/jeorje/taggo.svg)
+
+
 Easy peasy git tag utility for lazy people who don't want to remember git commands.
 
 ![taggo gopher](https://www.jeorje.net/images/taggo.png)
@@ -9,7 +15,23 @@ Tags are created with the format `vX.Y.Z` where `X` is the major version, `Y` is
 Future versions will allow to add pre-release and handle annotated tags.
 
 ## Installation
-**Work in progress**
+### Go install command
+If you have Go installed, you can use the `go install` command to install the binary.
+
+```bash
+go install github.com/jeorjebot/taggo
+```
+The binary will be installed in `$GOPATH/bin` or `$GOBIN` if set.
+Make sure you have `$GOPATH/bin` in your path.
+
+### From releases
+Download the binary from the releases page.
+Make sure the binary is executable, then move it to your path.
+
+```bash
+chmod +x /path/to/taggo
+mv /path/to/taggo /usr/local/bin
+```
 
 
 ## Usage
@@ -20,7 +42,35 @@ Future versions will allow to add pre-release and handle annotated tags.
 - `taggo -M` ==> create major tag. Example: v1.0.0
 - `taggo -d` ==> delete last tag
 
+## Examples
+- Show last tag
+```bash
+$ taggo
+[*] Current tag: v1.0.0
+```
 
+- Create first tag
+```bash
+$ taggo init
+[*] Initializing git repo
+[*] Added tag v0.0.0
+```
+
+- Create patch tag
+```bash
+$ taggo -p
+[*] Current tag: v0.0.0
+[*] New tag: v0.0.1
+[*] Tag pushed successfully
+```
+
+- Delete last tag
+```bash
+$ taggo -d
+[*] Current tag: v0.0.2
+[*] Deleting tag v0.0.2
+[*] Tag deleted successfully
+```
 
 ## Git Commands for reference
 - `git tag --sort=committerdate | tail -1` ==> last tag

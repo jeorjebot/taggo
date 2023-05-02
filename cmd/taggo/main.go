@@ -55,6 +55,11 @@ func main() {
 	err := repo.Prerequisites()
 	checkError(err)
 
+	tag, err := repo.CurrentTag()
+	checkError(err)
+
+	fmt.Println("[*] Current tag: " + tag)
+
 	if opts.Tag != "" {
 		// check tag format vX.Y.Z
 		err = repo.CheckTagFormat(opts.Tag)
@@ -71,11 +76,6 @@ func main() {
 		fmt.Println("[*] Tag pushed successfully")
 		os.Exit(0)
 	}
-
-	tag, err := repo.CurrentTag()
-	checkError(err)
-
-	fmt.Println("[*] Current tag: " + tag)
 
 	// if no options, show current tag and exit
 	if len(os.Args) == 1 {

@@ -16,9 +16,10 @@ var (
 
 // Options holds the CLI args
 type Options struct {
-	Major bool `short:"M" long:"major" description:"Bump major version"`
-	Minor bool `short:"m" long:"minor" description:"Bump minor version"`
-	Patch bool `short:"p" long:"patch" description:"Bump patch version"`
+	Tag   string `short:"t" long:"tag" description:"Tag to create"`
+	Major bool   `short:"M" long:"major" description:"Bump major version"`
+	Minor bool   `short:"m" long:"minor" description:"Bump minor version"`
+	Patch bool   `short:"p" long:"patch" description:"Bump patch version"`
 	//PreReleaseName string `short:"n" long:"pre-release-name" description:"create a pre-release tag"`
 	Delete bool `short:"d" long:"delete" description:"Delete last tag"`
 }
@@ -53,6 +54,21 @@ func main() {
 
 	err := repo.Prerequisites()
 	checkError(err)
+
+	if opts.Tag != "" {
+		// check tag format vX.Y.Z
+		err = repo.CheckTagFormat(opts.Tag)
+		checkError(err)
+
+		err = repo.CreateTag(opts.Tag)
+		checkError(err)
+
+		err = repo.PushTag(opts.Tag)
+		checkError(err)
+
+		fmt.Println("[*] Tag pushed successfully")
+		os.Exit(0)
+	}
 
 	tag, err := repo.CurrentTag()
 	checkError(err)

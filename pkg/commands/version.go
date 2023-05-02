@@ -44,3 +44,11 @@ func (r *GitRepoInfo) IncPatch() (newTag string, err error) {
 	newTag = fmt.Sprintf("v%d.%d.%d", major, minor, patch+1)
 	return newTag, nil
 }
+
+func (r *GitRepoInfo) CheckTagFormat(tag string) (err error) {
+	_, err = version.NewSemver(tag)
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -1,11 +1,12 @@
 # Taggo
 
-<!-- [![Go Report Card](https://goreportcard.com/badge/github.com/jeorje/taggo)](https://goreportcard.com/report/github.com/jeorjebot/taggo)
-[![GoDoc](https://godoc.org/github.com/jeorje/taggo?status.svg)](https://godoc.org/github.com/jeorjebot/taggo) -->
+
 ![GitHub release](https://img.shields.io/github/release/jeorjebot/taggo.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jeorjebot/taggo)](https://goreportcard.com/report/github.com/jeorjebot/taggo)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<!-- [![GoDoc](https://godoc.org/github.com/jeorje/taggo?status.svg)](https://godoc.org/github.com/jeorjebot/taggo) -->
 
-
-Easy peasy git tag utility for lazy people who don't want to remember git commands.
+Easy peasy `git tag` utility for lazy people who don't want to remember git commands.
 
 ![taggo gopher](https://www.jeorje.net/images/taggo.png)
 
@@ -13,6 +14,17 @@ Easy peasy git tag utility for lazy people who don't want to remember git comman
 Tags are created with the format `vX.Y.Z` where `X` is the major version, `Y` is the minor version and `Z` is the patch version.
 
 Future versions will allow to add pre-release and handle annotated tags.
+
+## Table of Contents
+
+- [Installation](#installation)
+  - [Go install command](#go-install-command)
+  - [From releases](#from-releases)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Git Commands for reference](#git-commands-for-reference)
+- [License](#license)
+- [Thanks](#thanks)
 
 ## Installation
 ### Go install command
@@ -40,6 +52,7 @@ mv /path/to/taggo /usr/local/bin
 - `taggo -p` ==> create patch tag. Example: v0.0.1
 - `taggo -m` ==> create minor tag. Example: v0.1.0
 - `taggo -M` ==> create major tag. Example: v1.0.0
+- `taggo -t` ==> create tag specifying version. Example: v1.0.0
 - `taggo -d` ==> delete last tag
 
 ## Examples
@@ -64,6 +77,14 @@ $ taggo -p
 [*] Tag pushed successfully
 ```
 
+- Create a specific tag
+```bash
+$ taggo -t v1.0.0
+[*] Current tag: v0.0.1
+[*] New tag: v1.0.0
+[*] Tag pushed successfully
+```
+
 - Delete last tag
 ```bash
 $ taggo -d
@@ -74,12 +95,15 @@ $ taggo -d
 
 ## Git Commands for reference
 - `git tag --sort=committerdate | tail -1` ==> last tag
+- `git describe --tags --abbrev=0` ==> last tag 
 - `git tag` ==> all tags
 - `git tag v1.0.0` ==> create tag
 - `git push origin v1.0.0` ==> push tag to remote
 - `git tag --delete v1.0.0` ==> delete tag local
 - `git push --delete origin v1.0.0` ==> delete tag remote
 
+## License
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE.md) file for details
 
 ## Thanks
 - [autotag](https://github.com/pantheon-systems/autotag) for the inspiration

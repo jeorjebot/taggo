@@ -8,7 +8,7 @@
 
 Easy peasy `git tag` utility for lazy people who don't want to remember git commands.
 
-![taggo gopher](https://www.jeorje.net/images/taggo.png)
+![taggo gopher](https://www.jeorje.net/images/taggo_v1.png)
 
 **Taggo** handle the creation of lightweight tags and push them to the remote repository.
 Tags are created with the format `vX.Y.Z` where `X` is the major version, `Y` is the minor version and `Z` is the patch version.

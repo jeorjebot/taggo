@@ -63,6 +63,8 @@ func main() {
 		err = repo.CreateTag(opts.Tag)
 		checkError(err)
 
+		fmt.Println("[*] New tag: " + opts.Tag)
+
 		err = repo.PushTag(opts.Tag)
 		checkError(err)
 

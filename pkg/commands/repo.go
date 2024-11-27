@@ -5,4 +5,5 @@ type GitRepoInfo struct {
 	LastTag   string
 	HasTag    bool
 	HasOrigin bool
+	NoPrefix  bool
 }

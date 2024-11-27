@@ -16,12 +16,14 @@ var (
 
 // Options holds the CLI args
 type Options struct {
-	Tag   string `short:"t" long:"tag" description:"Tag to create"`
-	Major bool   `short:"M" long:"major" description:"Bump major version"`
-	Minor bool   `short:"m" long:"minor" description:"Bump minor version"`
-	Patch bool   `short:"p" long:"patch" description:"Bump patch version"`
-	//PreReleaseName string `short:"n" long:"pre-release-name" description:"create a pre-release tag"`
-	Delete bool `short:"d" long:"delete" description:"Delete last tag"`
+	Tag              string `short:"t" long:"tag" description:"Tag to create"`
+	Major            bool   `short:"M" long:"major" description:"Bump major version"`
+	Minor            bool   `short:"m" long:"minor" description:"Bump minor version"`
+	Patch            bool   `short:"p" long:"patch" description:"Bump patch version"`
+	PreReleaseName   string `short:"n" long:"pre-release" description:"create a pre-release tag"`
+	Delete           bool   `short:"d" long:"delete" description:"Delete last tag"`
+	Init             bool   `short:"i" long:"init" description:"Initialize git repo with taggo"`
+	InitWithNoPrefix bool   `short:"I" long:"init-no-prefix" description:"Initialize git repo with taggo without 'v' prefix"`
 }
 
 func init() {
@@ -37,18 +39,35 @@ func init() {
 }
 
 func main() {
-	// if there are no tags, init repo
-	if len(os.Args) > 1 {
-		if os.Args[1] == "init" {
-			if len(os.Args) > 2 {
-				fmt.Println("[*] Error: no arguments expected for command 'init'")
-				fmt.Println("[*] Usage: taggo init")
-				os.Exit(1)
-			} else {
-				err := repo.InitRepo()
-				checkError(err)
-				os.Exit(0)
-			}
+
+	// init repo
+	if opts.Init {
+		// if init flag is set, no other options are expected
+		if opts.Major || opts.Minor || opts.Patch || opts.Tag != "" || opts.Delete || opts.InitWithNoPrefix || opts.PreReleaseName != "" {
+			fmt.Println("[*] Error: no arguments expected for command 'init'")
+			fmt.Println("[*] Usage: taggo --init")
+			os.Exit(1)
+		} else {
+			noPrefix := false
+			err := repo.InitRepo(noPrefix)
+			checkError(err)
+			os.Exit(0)
+		}
+
+	}
+
+	// init repo without prefix
+	if opts.InitWithNoPrefix {
+		// if init flag is set, no other options are expected
+		if opts.Major || opts.Minor || opts.Patch || opts.Tag != "" || opts.Delete || opts.Init || opts.PreReleaseName != "" {
+			fmt.Println("[*] Error: no arguments expected for command 'init-no-prefix'")
+			fmt.Println("[*] Usage: taggo --init-no-prefix")
+			os.Exit(1)
+		} else {
+			noPrefix := true
+			err := repo.InitRepo(noPrefix)
+			checkError(err)
+			os.Exit(0)
 		}
 	}
 
@@ -59,6 +78,11 @@ func main() {
 	checkError(err)
 
 	fmt.Println("[*] Current tag: " + tag)
+
+	if opts.Tag != "" && (opts.Major || opts.Minor || opts.Patch) {
+		fmt.Println("[*] Error: tag and increment options are mutually exclusive")
+		os.Exit(1)
+	}
 
 	if opts.Tag != "" {
 		// check tag format vX.Y.Z
@@ -107,6 +131,10 @@ func main() {
 	}
 	if opts.Patch {
 		newTag, err = repo.IncPatch()
+		checkError(err)
+	}
+	if opts.PreReleaseName != "" {
+		newTag, err = repo.CreatePreRelease(opts.PreReleaseName)
 		checkError(err)
 	}
 

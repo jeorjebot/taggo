@@ -209,8 +209,11 @@ func (r *GitRepoInfo) DeleteLastTagOnRemote() (err error) {
 	return nil
 }
 
-func (r *GitRepoInfo) InitRepo() (err error) {
+func (r *GitRepoInfo) InitRepo(NoPrefix bool) (err error) {
 	// create tag v0.0.0
+
+	r.NoPrefix = NoPrefix
+
 	err = r.Prerequisites()
 	if err != nil {
 		return err
@@ -220,7 +223,7 @@ func (r *GitRepoInfo) InitRepo() (err error) {
 
 	if !r.HasTag {
 		fmt.Println("[*] Initializing git repo")
-		firstTag := "v0.0.0"
+		firstTag := r.FormatTag("0.0.0")
 		err = r.CreateTag(firstTag)
 		if err != nil {
 			return err
@@ -229,7 +232,7 @@ func (r *GitRepoInfo) InitRepo() (err error) {
 		if err != nil {
 			return err
 		}
-		fmt.Println("[*] Added tag v0.0.0")
+		fmt.Println("[*] Added tag " + firstTag)
 		return nil
 	} else {
 		fmt.Println("[*] Repo already initialized")

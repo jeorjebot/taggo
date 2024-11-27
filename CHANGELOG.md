@@ -11,6 +11,16 @@
 
 -->
 
+## [v1.1.0.dev]
+
+### Added
+- Handled pre-release tags with the `-n` or `--pre-release` flag.
+  
+### Changed
+- Tags without the `v` prefix can now be created.
+
+
+
 ## [v1.1.0]
 
 ### Added

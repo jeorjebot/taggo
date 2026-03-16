@@ -15,11 +15,13 @@
 
 ### Added
 - Handled pre-release tags with the `-n` or `--pre-release` flag.
-  
+- Added Homebrew Cask for macOS installation (ARM and Intel). Contributed by @thetombrider.
+
 ### Changed
 - Tags without the `v` prefix can now be created.
 
-
+### Fixed
+- Restored gopher image in the README.
 
 ## [v1.1.0]
 

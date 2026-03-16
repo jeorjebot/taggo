@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"runtime"
 	"strings"
 )
 
@@ -83,35 +82,20 @@ func (r *GitRepoInfo) CurrentTag() (tag string, err error) {
 		return "", err
 	}
 
-	// FIXME: this is a workaround for windows
-	// more tags on a commit will return the first one, not the last one
 	var stdout, stderr bytes.Buffer
-	if runtime.GOOS == "windows" {
-		cmd := exec.Command("git", "-C", r.Path, "describe", "--tags", "--abbrev=0")
-		cmd.Stdout = &stdout
-		cmd.Stderr = &stderr
-		err = cmd.Run()
-		if err != nil {
-			err = fmt.Errorf("%w %s", err, stderr.String())
-			return "", err
-		}
-	} else {
-		cmd1 := exec.Command("git", "-C", r.Path, "tag", "--sort=committerdate")
-		cmd2 := exec.Command("tail", "-1")
-		cmd2.Stdin, _ = cmd1.StdoutPipe()
-		cmd2.Stdout = &stdout
-		cmd2.Stderr = &stderr
-		err1 := cmd1.Start()
-		if err1 != nil {
-			fmt.Println(err1)
-			os.Exit(1)
-		}
-		err2 := cmd2.Run()
-		if err2 != nil {
-			fmt.Println(err1)
-			os.Exit(1)
-		}
+	cmd := exec.Command("git", "-C", r.Path, "tag", "--sort=committerdate")
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	err = cmd.Run()
+	if err != nil {
+		err = fmt.Errorf("%w %s", err, stderr.String())
+		return "", err
 	}
+
+	// take the last line (most recent tag)
+	lines := strings.Split(strings.TrimSpace(stdout.String()), "\n")
+	stdout.Reset()
+	stdout.WriteString(lines[len(lines)-1])
 
 	tag = strings.TrimSpace(stdout.String())
 

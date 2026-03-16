@@ -193,6 +193,65 @@ func (r *GitRepoInfo) DeleteLastTagOnRemote() (err error) {
 	return nil
 }
 
+func (r *GitRepoInfo) CurrentBranch() (branch string, err error) {
+	cmd := exec.Command("git", "-C", r.Path, "rev-parse", "--abbrev-ref", "HEAD")
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	err = cmd.Run()
+	if err != nil {
+		err = fmt.Errorf("%w %s", err, stderr.String())
+		return "", err
+	}
+	return strings.TrimSpace(stdout.String()), nil
+}
+
+func (r *GitRepoInfo) ListTags() (err error) {
+	branch, err := r.CurrentBranch()
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("[*] Branch: " + branch)
+
+	// git log --simplify-by-decoration --decorate=full --pretty=format:"%D %ci" on current branch
+	// then filter for tags
+	cmd := exec.Command("git", "-C", r.Path, "tag", "--sort=committerdate", "--format=%(refname:short) %(creatordate:short)")
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	err = cmd.Run()
+	if err != nil {
+		err = fmt.Errorf("%w %s", err, stderr.String())
+		return err
+	}
+
+	output := strings.TrimSpace(stdout.String())
+	if output == "" {
+		fmt.Println("[*] No tags found")
+		return nil
+	}
+
+	// filter tags that are reachable from current branch
+	lines := strings.Split(output, "\n")
+	for _, line := range lines {
+		parts := strings.SplitN(line, " ", 2)
+		if len(parts) < 2 {
+			continue
+		}
+		tagName := parts[0]
+		tagDate := parts[1]
+
+		// check if this tag is an ancestor of HEAD
+		checkCmd := exec.Command("git", "-C", r.Path, "merge-base", "--is-ancestor", tagName, "HEAD")
+		if checkCmd.Run() == nil {
+			fmt.Printf("  %s\t%s\n", tagName, tagDate)
+		}
+	}
+
+	return nil
+}
+
 func (r *GitRepoInfo) InitRepo(NoPrefix bool) (err error) {
 	// create tag v0.0.0
 

@@ -22,6 +22,7 @@ type Options struct {
 	Patch            bool   `short:"p" long:"patch" description:"Bump patch version"`
 	PreReleaseName   string `short:"n" long:"pre-release" description:"create a pre-release tag"`
 	Delete           bool   `short:"d" long:"delete" description:"Delete last tag"`
+	List             bool   `short:"l" long:"list" description:"List tags in the current branch"`
 	Init             bool   `short:"i" long:"init" description:"Initialize git repo with taggo"`
 	InitWithNoPrefix bool   `short:"I" long:"init-no-prefix" description:"Initialize git repo with taggo without 'v' prefix"`
 }
@@ -43,7 +44,7 @@ func main() {
 	// init repo
 	if opts.Init {
 		// if init flag is set, no other options are expected
-		if opts.Major || opts.Minor || opts.Patch || opts.Tag != "" || opts.Delete || opts.InitWithNoPrefix || opts.PreReleaseName != "" {
+		if opts.Major || opts.Minor || opts.Patch || opts.Tag != "" || opts.Delete || opts.InitWithNoPrefix || opts.PreReleaseName != "" || opts.List {
 			fmt.Println("[*] Error: no arguments expected for command 'init'")
 			fmt.Println("[*] Usage: taggo --init")
 			os.Exit(1)
@@ -59,7 +60,7 @@ func main() {
 	// init repo without prefix
 	if opts.InitWithNoPrefix {
 		// if init flag is set, no other options are expected
-		if opts.Major || opts.Minor || opts.Patch || opts.Tag != "" || opts.Delete || opts.Init || opts.PreReleaseName != "" {
+		if opts.Major || opts.Minor || opts.Patch || opts.Tag != "" || opts.Delete || opts.Init || opts.PreReleaseName != "" || opts.List {
 			fmt.Println("[*] Error: no arguments expected for command 'init-no-prefix'")
 			fmt.Println("[*] Usage: taggo --init-no-prefix")
 			os.Exit(1)
@@ -69,6 +70,20 @@ func main() {
 			checkError(err)
 			os.Exit(0)
 		}
+	}
+
+	// list tags in current branch
+	if opts.List {
+		if opts.Major || opts.Minor || opts.Patch || opts.Tag != "" || opts.Delete || opts.Init || opts.InitWithNoPrefix || opts.PreReleaseName != "" {
+			fmt.Println("[*] Error: no arguments expected for command 'list'")
+			fmt.Println("[*] Usage: taggo --list")
+			os.Exit(1)
+		}
+		err := repo.Prerequisites()
+		checkError(err)
+		err = repo.ListTags()
+		checkError(err)
+		os.Exit(0)
 	}
 
 	err := repo.Prerequisites()

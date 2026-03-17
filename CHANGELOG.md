@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v1.2.0] - 2026-03-17
-
 ### Added
 - Added `-v`/`--version` flag to show taggo version.
 - Added `-l`/`--list` command to list tags in the current branch with dates.
@@ -38,7 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added commands for creating major, minor, and patch tags.
 - Added command for deleting the latest tag.
 
-[unreleased]: https://github.com/jeorjebot/taggo/compare/v1.2.0...HEAD
-[v1.2.0]: https://github.com/jeorjebot/taggo/compare/v1.1.0-dev...v1.2.0
+[unreleased]: https://github.com/jeorjebot/taggo/compare/v1.1.0-dev...HEAD
 [v1.1.0]: https://github.com/jeorjebot/taggo/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/jeorjebot/taggo/compare/v0.0.0...v1.0.0

@@ -10,7 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v1.2.0] - 2026-03-17
 
 ### Added
+- Added `-v`/`--version` flag to show taggo version.
 - Added `-l`/`--list` command to list tags in the current branch with dates.
+- Added automatic `CHANGELOG.md` management in [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format on tag creation.
+- Added `--no-changelog` flag to skip automatic changelog update.
 - Handled pre-release tags with the `-n` or `--pre-release` flag.
 - Added Homebrew Cask for macOS installation (ARM and Intel). Contributed by @thetombrider.
 

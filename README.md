@@ -34,10 +34,12 @@ It also supports pre-release tags, tags without the `v` prefix, and automatic `C
 If you have Go installed, you can use the `go install` command to install the binary.
 
 ```bash
-go install github.com/jeorjebot/taggo
+go install github.com/jeorjebot/taggo@latest
 ```
 The binary will be installed in `$GOPATH/bin` or `$GOBIN` if set.
 Make sure you have `$GOPATH/bin` in your path.
+
+If you're installing from a local clone, use `just install` to bake in the version number.
 
 ### From releases
 Download the binary for your OS from the [releases page](https://github.com/jeorjebot/taggo/releases).

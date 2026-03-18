@@ -149,3 +149,17 @@ release tag: (release-check tag)
     rm -rf "${BUILD_DIR}"
     echo ""
     echo "[*] Done!"
+
+# Delete a GitHub release (keeps the git tag)
+delete-release tag:
+    #!/usr/bin/env bash
+    set -e
+    echo "[*] Deleting GitHub release {{tag}}..."
+
+    if ! gh release view "{{tag}}" >/dev/null 2>&1; then
+        echo "==> Error: release {{tag}} not found"
+        exit 1
+    fi
+
+    gh release delete "{{tag}}" --yes
+    echo "[*] Release {{tag}} deleted"

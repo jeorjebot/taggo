@@ -33,6 +33,16 @@ type Options struct {
 }
 
 func init() {
+	// support "taggo init" as a positional subcommand (backward compatibility)
+	if len(os.Args) > 1 && os.Args[1] == "init" {
+		if len(os.Args) > 2 {
+			fmt.Println("[*] Error: no arguments expected for command 'init'")
+			fmt.Println("[*] Usage: taggo init")
+			os.Exit(1)
+		}
+		opts.Init = true
+		return
+	}
 
 	_, err := parser.Parse()
 	if err != nil {

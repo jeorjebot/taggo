@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.2.4] - 2026-03-18
+
 ### Changed
 - `CHANGELOG.md` is now scaffolded on `taggo init` instead of on first tag creation.
 - Changelog is only updated if `CHANGELOG.md` already exists; no longer auto-created on tag operations.
@@ -57,7 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added commands for creating major, minor, and patch tags.
 - Added command for deleting the latest tag.
 
-[unreleased]: https://github.com/jeorjebot/taggo/compare/v1.2.3...HEAD
+[unreleased]: https://github.com/jeorjebot/taggo/compare/v1.2.4...HEAD
+[v1.2.4]: https://github.com/jeorjebot/taggo/compare/v1.2.3...v1.2.4
 [v1.2.3]: https://github.com/jeorjebot/taggo/compare/v1.2.2...v1.2.3
 [v1.2.2]: https://github.com/jeorjebot/taggo/compare/v1.2.1...v1.2.2
 [v1.2.1]: https://github.com/jeorjebot/taggo/compare/v1.2.0...v1.2.1

@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.2.1] - 2026-03-18
+
 ### Added
 - Re-added `taggo init` as a positional subcommand for backward compatibility.
+
+### Fixed
+- `--version` now shows the correct version when installed via `go install ...@<version>`.
 
 ## [v1.2.0] - 2026-03-18
 
@@ -41,7 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added commands for creating major, minor, and patch tags.
 - Added command for deleting the latest tag.
 
-[unreleased]: https://github.com/jeorjebot/taggo/compare/v1.2.0...HEAD
+[unreleased]: https://github.com/jeorjebot/taggo/compare/v1.2.1...HEAD
+[v1.2.1]: https://github.com/jeorjebot/taggo/compare/v1.2.0...v1.2.1
 [v1.2.0]: https://github.com/jeorjebot/taggo/compare/v1.1.0...v1.2.0
 [v1.1.0]: https://github.com/jeorjebot/taggo/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/jeorjebot/taggo/compare/v0.0.0...v1.0.0

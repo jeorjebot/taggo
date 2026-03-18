@@ -135,8 +135,6 @@ func main() {
 		if !opts.NoChangelog {
 			err = repo.UpdateChangelog(opts.Tag)
 			checkError(err)
-			err = repo.CommitChangelog(opts.Tag)
-			checkError(err)
 		}
 
 		err = repo.CreateTag(opts.Tag)
@@ -170,8 +168,6 @@ func main() {
 		if !opts.NoChangelog {
 			err = repo.RevertChangelog(tag)
 			checkError(err)
-			err = repo.CommitChangelog(tag)
-			checkError(err)
 		}
 
 		os.Exit(0)
@@ -202,8 +198,6 @@ func main() {
 
 	if !opts.NoChangelog {
 		err = repo.UpdateChangelog(newTag)
-		checkError(err)
-		err = repo.CommitChangelog(newTag)
 		checkError(err)
 	}
 

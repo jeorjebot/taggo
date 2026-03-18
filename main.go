@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime/debug"
 
 	"github.com/jeorjebot/taggo/pkg/commands"
 	flags "github.com/jessevdk/go-flags"
 )
 
-// version is set at build time via ldflags
+// version is set at build time via ldflags, or read from Go module info
 var version = "dev"
 
 var (
@@ -33,6 +34,13 @@ type Options struct {
 }
 
 func init() {
+	// resolve version from Go build info if not set via ldflags
+	if version == "dev" {
+		if info, ok := debug.ReadBuildInfo(); ok && info.Main.Version != "" && info.Main.Version != "(devel)" {
+			version = info.Main.Version
+		}
+	}
+
 	// support "taggo init" as a positional subcommand (backward compatibility)
 	if len(os.Args) > 1 && os.Args[1] == "init" {
 		if len(os.Args) > 2 {

@@ -8,6 +8,9 @@ import (
 	flags "github.com/jessevdk/go-flags"
 )
 
+// version is set at build time via ldflags
+var version = "dev"
+
 var (
 	opts   Options
 	repo   commands.GitRepoInfo = commands.GitRepoInfo{}
@@ -23,6 +26,8 @@ type Options struct {
 	PreReleaseName   string `short:"n" long:"pre-release" description:"create a pre-release tag"`
 	Delete           bool   `short:"d" long:"delete" description:"Delete last tag"`
 	List             bool   `short:"l" long:"list" description:"List tags in the current branch"`
+	NoChangelog      bool   `long:"no-changelog" description:"Do not update CHANGELOG.md"`
+	Version          bool   `short:"v" long:"version" description:"Show taggo version"`
 	Init             bool   `short:"i" long:"init" description:"Initialize git repo with taggo"`
 	InitWithNoPrefix bool   `short:"I" long:"init-no-prefix" description:"Initialize git repo with taggo without 'v' prefix"`
 }
@@ -40,6 +45,11 @@ func init() {
 }
 
 func main() {
+
+	if opts.Version {
+		fmt.Println("taggo " + version)
+		os.Exit(0)
+	}
 
 	// init repo
 	if opts.Init {
@@ -104,6 +114,13 @@ func main() {
 		err = repo.CheckTagFormat(opts.Tag)
 		checkError(err)
 
+		if !opts.NoChangelog {
+			err = repo.UpdateChangelog(opts.Tag)
+			checkError(err)
+			err = repo.CommitChangelog(opts.Tag)
+			checkError(err)
+		}
+
 		err = repo.CreateTag(opts.Tag)
 		checkError(err)
 
@@ -131,6 +148,14 @@ func main() {
 		checkError(err)
 
 		fmt.Println("[*] Tag deleted successfully")
+
+		if !opts.NoChangelog {
+			err = repo.RevertChangelog(tag)
+			checkError(err)
+			err = repo.CommitChangelog(tag)
+			checkError(err)
+		}
+
 		os.Exit(0)
 	}
 
@@ -155,6 +180,13 @@ func main() {
 
 	if newTag != "" {
 		fmt.Println("[*] New tag: " + newTag)
+	}
+
+	if !opts.NoChangelog {
+		err = repo.UpdateChangelog(newTag)
+		checkError(err)
+		err = repo.CommitChangelog(newTag)
+		checkError(err)
 	}
 
 	// create new tag

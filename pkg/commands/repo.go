@@ -6,4 +6,5 @@ type GitRepoInfo struct {
 	HasTag    bool
 	HasOrigin bool
 	NoPrefix  bool
+	RemoteURL string // e.g. "https://github.com/user/repo"
 }

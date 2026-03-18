@@ -120,6 +120,8 @@ func (r *GitRepoInfo) Prerequisites() (err error) {
 		return err
 	}
 
+	_ = r.GetRemoteURL()
+
 	// err = r.HasTags()
 	// if err != nil {
 	// 	return err
@@ -190,6 +192,54 @@ func (r *GitRepoInfo) DeleteLastTagOnRemote() (err error) {
 		err = fmt.Errorf("%w %s", err, stderr.String())
 		return err
 	}
+	return nil
+}
+
+func (r *GitRepoInfo) GetRemoteURL() (err error) {
+	cmd := exec.Command("git", "-C", r.Path, "remote", "get-url", "origin")
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	err = cmd.Run()
+	if err != nil {
+		return nil
+	}
+	raw := strings.TrimSpace(stdout.String())
+	r.RemoteURL = parseRemoteURL(raw)
+	return nil
+}
+
+func parseRemoteURL(raw string) string {
+	// git@github.com:user/repo.git -> https://github.com/user/repo
+	if strings.HasPrefix(raw, "git@") {
+		raw = strings.TrimPrefix(raw, "git@")
+		raw = strings.Replace(raw, ":", "/", 1)
+		raw = "https://" + raw
+	}
+	raw = strings.TrimSuffix(raw, ".git")
+	return raw
+}
+
+func (r *GitRepoInfo) CommitChangelog(newTag string) (err error) {
+	// stage CHANGELOG.md
+	cmd := exec.Command("git", "-C", r.Path, "add", "CHANGELOG.md")
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+	err = cmd.Run()
+	if err != nil {
+		return fmt.Errorf("%w %s", err, stderr.String())
+	}
+
+	// commit
+	msg := "chore: update CHANGELOG.md for " + newTag
+	cmd = exec.Command("git", "-C", r.Path, "commit", "-m", msg)
+	stderr.Reset()
+	cmd.Stderr = &stderr
+	err = cmd.Run()
+	if err != nil {
+		return fmt.Errorf("%w %s", err, stderr.String())
+	}
+	fmt.Println("[*] CHANGELOG.md committed")
 	return nil
 }
 

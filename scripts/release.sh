@@ -72,13 +72,12 @@ for PLATFORM in "${PLATFORMS[@]}"; do
     fi
 
     echo "    ${GOOS}/${GOARCH} -> ${OUTPUT}"
-    cd "${WORK_DIR}" && GOOS="${GOOS}" GOARCH="${GOARCH}" go build \
+    (cd "${WORK_DIR}" && GOOS="${GOOS}" GOARCH="${GOARCH}" go build \
         -ldflags "-X main.version=${TAG}" \
-        -o "${OUTPUT}" .
+        -o "${OUTPUT}" .)
 done
 
 # Cleanup worktree
-cd - >/dev/null
 git worktree remove "${WORK_DIR}" --force
 
 echo "[*] Binaries built:"
@@ -101,7 +100,7 @@ for f in "${BUILD_DIR}"/taggo-"${TAG}"-macos-*; do
     echo "    $(basename "$f"): $(shasum -a 256 "$f" | awk '{print $1}')"
 done
 
-# Cleanup
+# Cleanup build artifacts
+rm -rf "${BUILD_DIR}"
 echo ""
-echo "[*] Binaries are in ${BUILD_DIR}/"
 echo "[*] Done!"

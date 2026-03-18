@@ -98,6 +98,7 @@ release tag: (release-check tag)
     rm -rf "${BUILD_DIR}"
     mkdir -p "${BUILD_DIR}"
 
+    REPO_DIR="$(pwd)"
     WORK_DIR=$(mktemp -d)
     echo "[*] Checking out {{tag}} in ${WORK_DIR}..."
     git worktree add --detach "${WORK_DIR}" "{{tag}}" --quiet
@@ -123,8 +124,8 @@ release tag: (release-check tag)
             -o "${OUTPUT}" .
     done
 
-    # Cleanup worktree
-    cd - >/dev/null
+    # Return to repo and cleanup worktree
+    cd "${REPO_DIR}"
     git worktree remove "${WORK_DIR}" --force
 
     # Create release
@@ -140,6 +141,11 @@ release tag: (release-check tag)
     # Print checksums for Homebrew Cask
     echo ""
     echo "[*] SHA256 checksums (for Homebrew Cask):"
-    for f in "${BUILD_DIR}"/taggo-"{{tag}}"-darwin-*; do
+    for f in "${BUILD_DIR}"/taggo-"{{tag}}"-macos-*; do
         echo "    $(basename "$f"): $(shasum -a 256 "$f" | awk '{print $1}')"
     done
+
+    # Cleanup build artifacts
+    rm -rf "${BUILD_DIR}"
+    echo ""
+    echo "[*] Done!"

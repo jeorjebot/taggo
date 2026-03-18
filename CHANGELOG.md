@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Changelog updates are no longer auto-committed; taggo only writes `CHANGELOG.md` to disk.
+
 ## [v1.2.2] - 2026-03-18
 
 ## Fixed

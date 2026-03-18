@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- `CHANGELOG.md` is now scaffolded on `taggo init` instead of on first tag creation.
+- Changelog is only updated if `CHANGELOG.md` already exists; no longer auto-created on tag operations.
+
 ## [v1.2.3] - 2026-03-18
 
 ### Changed

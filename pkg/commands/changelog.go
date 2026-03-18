@@ -21,15 +21,39 @@ const unreleasedSection = "## [Unreleased]\n"
 
 // UpdateChangelog updates CHANGELOG.md when a new tag is created.
 // It moves the [Unreleased] content into a new versioned section and updates comparison links.
+// ScaffoldChangelog creates a new CHANGELOG.md with the standard header and empty [Unreleased] section.
+func (r *GitRepoInfo) ScaffoldChangelog() error {
+	changelogPath := filepath.Join(r.Path, "CHANGELOG.md")
+
+	if _, err := os.Stat(changelogPath); err == nil {
+		fmt.Println("[*] CHANGELOG.md already exists")
+		return nil
+	}
+
+	content := changelogHeader + unreleasedSection
+	err := os.WriteFile(changelogPath, []byte(content), 0644)
+	if err != nil {
+		return fmt.Errorf("failed to write CHANGELOG.md: %w", err)
+	}
+
+	fmt.Println("[*] CHANGELOG.md created")
+	return nil
+}
+
 func (r *GitRepoInfo) UpdateChangelog(newTag string) error {
 	changelogPath := filepath.Join(r.Path, "CHANGELOG.md")
 
-	content, err := readOrScaffoldChangelog(changelogPath)
-	if err != nil {
-		return err
+	// only update if CHANGELOG.md already exists
+	if _, err := os.Stat(changelogPath); os.IsNotExist(err) {
+		return nil
 	}
 
-	content = ensureUnreleasedSection(content)
+	data, err := os.ReadFile(changelogPath)
+	if err != nil {
+		return fmt.Errorf("failed to read CHANGELOG.md: %w", err)
+	}
+
+	content := ensureUnreleasedSection(string(data))
 	content = insertVersionSection(content, newTag)
 	content = updateComparisonLinks(content, newTag, r.LastTag, r.RemoteURL)
 

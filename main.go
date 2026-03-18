@@ -24,7 +24,7 @@ type Options struct {
 	Major            bool   `short:"M" long:"major" description:"Bump major version"`
 	Minor            bool   `short:"m" long:"minor" description:"Bump minor version"`
 	Patch            bool   `short:"p" long:"patch" description:"Bump patch version"`
-	PreReleaseName   string `short:"n" long:"pre-release" description:"create a pre-release tag"`
+	PreReleaseName   string `short:"n" long:"pre-release" description:"Create a pre-release tag"`
 	Delete           bool   `short:"d" long:"delete" description:"Delete last tag"`
 	List             bool   `short:"l" long:"list" description:"List tags in the current branch"`
 	NoChangelog      bool   `long:"no-changelog" description:"Do not update CHANGELOG.md"`

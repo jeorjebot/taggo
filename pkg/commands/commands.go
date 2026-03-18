@@ -326,6 +326,10 @@ func (r *GitRepoInfo) InitRepo(NoPrefix bool) (err error) {
 			return err
 		}
 		fmt.Println("[*] Added tag " + firstTag)
+		err = r.ScaffoldChangelog()
+		if err != nil {
+			return err
+		}
 		return nil
 	} else {
 		fmt.Println("[*] Repo already initialized")
